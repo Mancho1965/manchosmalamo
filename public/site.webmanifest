@@ -1,0 +1,16 @@
+{
+  "name": "MANCHO'S მალამო",
+  "short_name": "MANCHO'S",
+  "description": "ბუნებრივი მცენარეული მალამოები",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6f1",
+  "theme_color": "#1f4d2d",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
