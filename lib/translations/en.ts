@@ -60,13 +60,14 @@ const en = {
   },
 
   features: {
-    badge: "WHY MANCHO'S",
+  badge: "WHY MANCHO'S",
 
-    title: "Why MANCHO'S",
+  title1: "Why",
+  title2: "MANCHO'S",
 
-    description: "Our core values.",
+  description: "Our core values.",
 
-    cards: [
+  cards: [
       {
         icon: "🌿",
         title: "Natural Ingredients",
@@ -91,12 +92,20 @@ const en = {
   },
 
   gallery: {
-    badge: "REAL RESULTS",
+  badge: "REAL RESULTS",
 
-    title: "Before / After",
+  title: "Before / After",
 
-    description: "Real results from our customers.",
-  },
+  description: "Real results from our patients.",
+
+  noticeTitle: "📷 Photos submitted by our patients",
+
+  noticeText1:
+    "Most of the photographs in this gallery were submitted by our patients with their consent. They present real cases and the condition after using the ointment.",
+
+  noticeText2:
+    "Each case is unique. Results depend on the severity of the condition, the patient's overall health, and adherence to the recommended treatment.",
+},
 
   warning: {
     title: "Warning",
@@ -149,6 +158,21 @@ footer: {
 
   rights: "All rights reserved.",
   },
+
+galleryFilters: {
+  all: "All",
+  psoriasis: "Psoriasis",
+  lymphedema: "Lymphedema",
+  diabeticWound: "Diabetic Wound",
+  gangrene: "Gangrene",
+  burn: "Burns",
+  scabies: "Scabies",
+  fungus: "Fungal Diseases",
+},
+
+lightboxNote:
+  "Each clinical case is individual. Photos are published with the patient's consent.",
+
 };
 
 export default en;

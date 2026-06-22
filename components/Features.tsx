@@ -17,8 +17,13 @@ export default function Features() {
             {t.features.badge}
           </span>
 
-          <h2 className="mt-4 text-5xl font-bold text-[#1f4d2d]">
-            {t.features.title}
+          <h2 className="mt-4 text-5xl font-bold">
+            <span className="text-[#b58a35]">
+              {t.features.title1}
+            </span>{" "}
+            <span className="text-[#1f4d2d]">
+              {t.features.title2}
+            </span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">

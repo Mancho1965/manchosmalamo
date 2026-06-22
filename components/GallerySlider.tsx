@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,25 +8,44 @@ import { Navigation, Pagination } from "swiper/modules";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { galleryItems } from "@/lib/gallery";
+
+import GalleryFilters from "./GalleryFilters";
+import Lightbox from "./Lightbox";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const images = [
-  "/gallery/1.png",
-  "/gallery/2.png",
-  "/gallery/3.png",
-  "/gallery/4.png",
-  "/gallery/5.png",
-];
+type Category =
+  | "all"
+  | "psoriasis"
+  | "lymphedema"
+  | "diabetic-wound"
+  | "gangrene"
+  | "burn"
+  | "scabies"
+  | "fungus";
 
 export default function GallerySlider() {
   const { language } = useLanguage();
   const t = translations[language];
 
   const [accepted, setAccepted] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const [selectedCategory, setSelectedCategory] =
+    useState<Category>("all");
+
+  const filteredItems = useMemo(() => {
+    if (selectedCategory === "all") return galleryItems;
+
+    return galleryItems.filter(
+      (item) => item.category === selectedCategory
+    );
+  }, [selectedCategory]);
+
+  const [selectedIndex, setSelectedIndex] =
+    useState<number | null>(null);
 
   if (!accepted) {
     return (
@@ -41,11 +60,13 @@ export default function GallerySlider() {
         <p className="mt-6 text-lg leading-8 text-gray-700">
           {t.warning.text1}
 
-          <br /><br />
+          <br />
+          <br />
 
           {t.warning.text2}
 
-          <br /><br />
+          <br />
+          <br />
 
           {t.warning.text3}
         </p>
@@ -63,11 +84,16 @@ export default function GallerySlider() {
 
   return (
     <>
+      <GalleryFilters
+        selected={selectedCategory}
+        onChange={setSelectedCategory}
+      />
+
       <Swiper
         modules={[Navigation, Pagination]}
         navigation
         pagination={{ clickable: true }}
-        loop={true}
+        loop={filteredItems.length > 1}
         spaceBetween={30}
         breakpoints={{
           0: {
@@ -81,17 +107,17 @@ export default function GallerySlider() {
           },
         }}
       >
-        {images.map((image, index) => (
-          <SwiperSlide key={index}>
+        {filteredItems.map((item, index) => (
+          <SwiperSlide key={item.id}>
             <div
-              onClick={() => setSelectedImage(image)}
+              onClick={() => setSelectedIndex(index)}
               className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-xl"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
 
                 <Image
-                  src={image}
-                  alt={`Gallery ${index + 1}`}
+                  src={item.image}
+                  alt={item.title[language]}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-110"
                 />
@@ -109,39 +135,47 @@ export default function GallerySlider() {
                 </div>
 
               </div>
+
+              <div className="p-5">
+
+                <h3 className="text-xl font-bold text-[#1f4d2d]">
+                  {item.title[language]}
+                </h3>
+
+                <p className="mt-3 line-clamp-3 text-gray-600">
+                  {item.description[language]}
+                </p>
+
+              </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-6"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div
-            className="relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute -top-14 right-0 text-5xl text-white hover:text-gray-300"
-            >
-              ×
-            </button>
-
-            <Image
-              src={selectedImage}
-              alt="Gallery"
-              width={1200}
-              height={1500}
-              className="max-h-[90vh] w-auto rounded-3xl shadow-2xl"
-            />
-
-          </div>
-        </div>
-      )}
+            <Lightbox
+        item={
+          selectedIndex !== null
+            ? filteredItems[selectedIndex]
+            : null
+        }
+        language={language as "ka" | "en" | "ru" | "el"}
+        onClose={() => setSelectedIndex(null)}
+        onPrev={() =>
+          setSelectedIndex((prev) => {
+            if (prev === null) return null;
+            return prev === 0
+              ? filteredItems.length - 1
+              : prev - 1;
+          })
+        }
+        onNext={() =>
+          setSelectedIndex((prev) => {
+            if (prev === null) return null;
+            return prev === filteredItems.length - 1
+              ? 0
+              : prev + 1;
+          })
+        }
+      />
     </>
   );
 }

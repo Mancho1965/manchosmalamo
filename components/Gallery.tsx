@@ -31,6 +31,23 @@ export default function Gallery() {
 
         </div>
 
+        <div className="mb-12 rounded-3xl border border-green-200 bg-green-50 p-8 shadow-sm">
+
+          <h3 className="text-2xl font-bold text-[#1f4d2d]">
+            {t.gallery.noticeTitle}
+          </h3>
+
+          <p className="mt-5 text-lg leading-8 text-gray-700">
+            {t.gallery.noticeText1}
+
+            <br />
+            <br />
+
+            {t.gallery.noticeText2}
+          </p>
+
+        </div>
+
         <GallerySlider />
 
       </div>
