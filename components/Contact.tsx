@@ -1,4 +1,12 @@
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function Contact() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section
       id="contact"
@@ -11,16 +19,15 @@ export default function Contact() {
           <div className="text-center">
 
             <span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b58a35]">
-              CONTACT
+              {t.contact.badge}
             </span>
 
             <h2 className="mt-4 text-5xl font-bold text-[#1f4d2d]">
-              დაგვიკავშირდით
+              {t.contact.title}
             </h2>
 
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
-              თუ გაქვთ შეკითხვა ან გსურთ კონსულტაცია,
-              დაგვიკავშირდით ნებისმიერ დროს.
+              {t.contact.description}
             </p>
 
           </div>
@@ -34,7 +41,7 @@ export default function Contact() {
               <div>
 
                 <h3 className="font-semibold text-[#1f4d2d]">
-                  ტელეფონი
+                  {t.contact.phone}
                 </h3>
 
                 <a
@@ -64,7 +71,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="text-lg text-gray-600 hover:text-green-700"
                 >
-                  მოგვწერეთ WhatsApp-ზე
+                  {t.contact.whatsapp}
                 </a>
 
               </div>
@@ -78,7 +85,7 @@ export default function Contact() {
               <div>
 
                 <h3 className="font-semibold text-[#1f4d2d]">
-                  ელფოსტა
+                  {t.contact.email}
                 </h3>
 
                 <a
@@ -99,11 +106,11 @@ export default function Contact() {
               <div>
 
                 <h3 className="font-semibold text-[#1f4d2d]">
-                  მდებარეობა
+                  {t.contact.location}
                 </h3>
 
                 <p className="text-lg text-gray-600">
-                  საქართველო
+                  {t.contact.country}
                 </p>
 
               </div>
@@ -117,11 +124,11 @@ export default function Contact() {
               <div>
 
                 <h3 className="font-semibold text-[#1f4d2d]">
-                  სამუშაო საათები
+                  {t.contact.hours}
                 </h3>
 
                 <p className="text-lg text-gray-600">
-                  ყოველდღე 09:00 – 20:00
+                  {t.contact.hoursValue}
                 </p>
 
               </div>
@@ -145,7 +152,7 @@ export default function Contact() {
               href="tel:+995555252914"
               className="rounded-xl border-2 border-[#1f4d2d] px-10 py-4 text-lg font-semibold text-[#1f4d2d] transition hover:bg-[#1f4d2d] hover:text-white"
             >
-              📞 დარეკვა
+              📞 {t.contact.call}
             </a>
 
           </div>

@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -19,6 +22,9 @@ const images = [
 ];
 
 export default function GallerySlider() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   const [accepted, setAccepted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -29,29 +35,26 @@ export default function GallerySlider() {
         <div className="text-6xl">⚠️</div>
 
         <h3 className="mt-6 text-4xl font-bold text-[#1f4d2d]">
-          ყურადღება
+          {t.warning.title}
         </h3>
 
         <p className="mt-6 text-lg leading-8 text-gray-700">
-          ქვემოთ წარმოდგენილია კანის დაავადებების
-          რეალური ფოტოები.
+          {t.warning.text1}
 
           <br /><br />
 
-          ზოგიერთი მათგანი შესაძლოა იყოს
-          მძიმე სანახავი.
+          {t.warning.text2}
 
           <br /><br />
 
-          ფოტოების ნახვა გაგრძელდება მხოლოდ
-          თქვენი თანხმობის შემდეგ.
+          {t.warning.text3}
         </p>
 
         <button
           onClick={() => setAccepted(true)}
           className="mt-10 rounded-xl bg-[#1f4d2d] px-10 py-4 text-lg font-semibold text-white transition hover:bg-[#173b24]"
         >
-          ფოტოების ჩვენება
+          {t.warning.button}
         </button>
 
       </div>
@@ -96,13 +99,13 @@ export default function GallerySlider() {
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/40">
 
                   <div className="rounded-full bg-white px-6 py-3 font-semibold text-[#1f4d2d] opacity-0 transition duration-300 group-hover:opacity-100">
-                    🔍 ნახვა
+                    🔍 {t.warning.view}
                   </div>
 
                 </div>
 
                 <div className="absolute left-4 top-4 rounded-full bg-[#1f4d2d] px-4 py-2 text-sm font-semibold text-white">
-                  რეალური შედეგი
+                  {t.warning.real}
                 </div>
 
               </div>

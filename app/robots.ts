@@ -1,13 +1,14 @@
 import { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-      },
-    ],
-    sitemap: "https://manchosmalamo.com/sitemap.xml",
-  };
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://www.manchosmalamo.com";
+
+  return [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+  ];
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -13,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://manchosmalamo.com"),
+  metadataBase: new URL("https://www.manchosmalamo.com"),
 
   title: {
     default: "MANCHO'S მალამო | ბუნებრივი მცენარეული მალამოები",
@@ -49,14 +51,19 @@ export const metadata: Metadata = {
     follow: true,
   },
 
+  alternates: {
+    canonical: "https://www.manchosmalamo.com",
+  },
+
   openGraph: {
     type: "website",
     locale: "ka_GE",
-    url: "https://manchosmalamo.com",
+    url: "https://www.manchosmalamo.com",
     siteName: "MANCHO'S მალამო",
     title: "MANCHO'S მალამო",
     description:
       "ბუნებრივი მცენარეული მალამოები მრავალწლიანი გამოცდილებით.",
+    countryName: "Georgia",
 
     images: [
       {
@@ -64,6 +71,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "MANCHO'S მალამო",
+        type: "image/jpeg",
       },
     ],
   },
@@ -73,12 +81,12 @@ export const metadata: Metadata = {
     title: "MANCHO'S მალამო",
     description:
       "ბუნებრივი მცენარეული მალამოები მრავალწლიანი გამოცდილებით.",
-
     images: ["/og-image.jpg"],
   },
 
   icons: {
     icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
@@ -94,7 +102,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#f8f6f1] text-gray-900">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
