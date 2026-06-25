@@ -99,6 +99,31 @@ export default function Contact() {
 
             </div>
 
+            {/* Facebook */}
+
+            <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow">
+
+              <span className="text-3xl">📘</span>
+
+              <div>
+
+                <h3 className="font-semibold text-[#1f4d2d]">
+                  Facebook
+                </h3>
+
+                <a
+                  href="https://m.facebook.com/profile.php?id=100069459975977&name=xhp_nt__fb__action__open_user"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg text-gray-600 hover:text-[#1877F2]"
+                >
+                  საუკეთესო მალამოები • Manana Jimsheleishvili
+                </a>
+
+              </div>
+
+            </div>
+
             <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow">
 
               <span className="text-3xl">📍</span>
@@ -153,6 +178,15 @@ export default function Contact() {
               className="rounded-xl border-2 border-[#1f4d2d] px-10 py-4 text-lg font-semibold text-[#1f4d2d] transition hover:bg-[#1f4d2d] hover:text-white"
             >
               📞 {t.contact.call}
+            </a>
+
+            <a
+              href="https://m.facebook.com/profile.php?id=100069459975977&name=xhp_nt__fb__action__open_user"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl bg-[#1877F2] px-10 py-4 text-lg font-semibold text-white transition hover:bg-[#1666d8]"
+            >
+              📘 Facebook
             </a>
 
           </div>

@@ -42,7 +42,7 @@ export default function Hero() {
             ))}
           </ul>
 
-          <div className="mt-10 flex gap-4">
+          <div className="mt-10 flex flex-wrap gap-4">
 
             <a
               href="tel:+995555252914"
@@ -58,6 +58,24 @@ export default function Hero() {
               className="rounded-xl border-2 border-green-700 px-8 py-4 font-semibold text-green-700 transition hover:bg-green-700 hover:text-white"
             >
               {t.hero.whatsapp}
+            </a>
+
+            <a
+              href="https://m.facebook.com/profile.php?id=100069459975977&name=xhp_nt__fb__action__open_user"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-xl bg-[#1877F2] px-8 py-4 font-semibold text-white transition hover:bg-[#1666d8]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-5 w-5"
+              >
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019-4.388 11.01-10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.017 1.792-4.686 4.533-4.686 1.313 0 2.686.235 2.686.235v2.962h-1.514c-1.491 0-1.956.93-1.956 1.885v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.083 24 18.092 24 12.073z" />
+              </svg>
+
+              Facebook
             </a>
 
           </div>

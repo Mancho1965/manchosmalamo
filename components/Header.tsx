@@ -20,7 +20,7 @@ export default function Header() {
             width={50}
             height={50}
             priority
-            className="sm:w-[70px] sm:h-[70px]"
+            className="sm:h-[70px] sm:w-[70px]"
           />
 
           <div>
@@ -34,7 +34,7 @@ export default function Header() {
           </div>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-10">
+        <nav className="hidden items-center gap-10 lg:flex">
           <a href="#home">{t.header.home}</a>
           <a href="#products">{t.header.products}</a>
           <a href="#features">{t.header.features}</a>
@@ -43,7 +43,29 @@ export default function Header() {
           <a href="#contact">{t.header.contact}</a>
         </nav>
 
-        <LanguageSwitcher />
+        <div className="flex items-center gap-3">
+
+          <a
+            href="https://m.facebook.com/profile.php?id=100069459975977&name=xhp_nt__fb__action__open_user"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1877F2] text-white shadow-md transition-all duration-300 hover:scale-110 hover:bg-[#1666d8] hover:shadow-xl"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-6 w-6"
+            >
+              <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 11.01 10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.017 1.792-4.686 4.533-4.686 1.313 0 2.686.235 2.686.235v2.962h-1.514c-1.491 0-1.956.93-1.956 1.885v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.083 24 18.092 24 12.073z" />
+            </svg>
+          </a>
+
+          <LanguageSwitcher />
+
+        </div>
+
       </div>
     </header>
   );
