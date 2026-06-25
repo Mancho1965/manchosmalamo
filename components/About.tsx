@@ -12,17 +12,19 @@ export default function About() {
     <section id="about" className="bg-white py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
 
+        {/* ფოტო */}
         <div className="flex justify-center">
           <Image
-            src={`/jar.png?v=${Date.now()}`}
+            src="/about.jpg"
             alt="MANCHO'S"
             width={650}
             height={650}
             className="h-auto w-full max-w-[520px]"
-            unoptimized
+            priority
           />
         </div>
 
+        {/* ტექსტი */}
         <div>
 
           <span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b78b2f]">
@@ -44,20 +46,25 @@ export default function About() {
           </p>
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
-            {t.about.cards.map((card, index) => (
-              <div
-                key={index}
-                className="rounded-2xl border border-gray-200 p-5"
-              >
-                <h3 className="font-semibold text-[#1f4d2d]">
-                  {card.title}
-                </h3>
+            {t.about.cards.map(
+              (
+                card: { title: string; text: string },
+                index: number
+              ) => (
+                <div
+                  key={index}
+                  className="rounded-2xl border border-gray-200 p-5"
+                >
+                  <h3 className="font-semibold text-[#1f4d2d]">
+                    {card.title}
+                  </h3>
 
-                <p className="mt-2 text-gray-600">
-                  {card.text}
-                </p>
-              </div>
-            ))}
+                  <p className="mt-2 text-gray-600">
+                    {card.text}
+                  </p>
+                </div>
+              )
+            )}
           </div>
 
         </div>
