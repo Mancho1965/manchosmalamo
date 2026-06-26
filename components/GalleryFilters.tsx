@@ -11,7 +11,8 @@ type Category =
   | "gangrene"
   | "burn"
   | "scabies"
-  | "fungus";
+  | "fungus"
+  | "general";
 
 type Props = {
   selected: Category;
@@ -27,6 +28,7 @@ export default function GalleryFilters({
 
   const buttons: { value: Category; label: string }[] = [
     { value: "all", label: t.galleryFilters.all },
+    { value: "general", label: "General" },
     { value: "psoriasis", label: t.galleryFilters.psoriasis },
     { value: "lymphedema", label: t.galleryFilters.lymphedema },
     { value: "diabetic-wound", label: t.galleryFilters.diabeticWound },
