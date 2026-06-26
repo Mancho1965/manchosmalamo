@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,7 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { galleryItems } from "@/lib/gallery";
+import { getGallery } from "@/lib/getGallery";
 
 import GalleryFilters from "./GalleryFilters";
 import Lightbox from "./Lightbox";
@@ -31,10 +31,21 @@ export default function GallerySlider() {
   const { language } = useLanguage();
   const t = translations[language];
 
+  const [galleryItems, setGalleryItems] = useState<any[]>([]);
   const [accepted, setAccepted] = useState(false);
-
   const [selectedCategory, setSelectedCategory] =
     useState<Category>("all");
+  const [selectedIndex, setSelectedIndex] =
+    useState<number | null>(null);
+
+  useEffect(() => {
+    async function loadGallery() {
+      const data = await getGallery();
+      setGalleryItems(data || []);
+    }
+
+    loadGallery();
+  }, []);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "all") return galleryItems;
@@ -42,15 +53,41 @@ export default function GallerySlider() {
     return galleryItems.filter(
       (item) => item.category === selectedCategory
     );
-  }, [selectedCategory]);
+  }, [galleryItems, selectedCategory]);
 
-  const [selectedIndex, setSelectedIndex] =
-    useState<number | null>(null);
+  function getTitle(item: any) {
+    switch (language) {
+      case "ka":
+        return item.title_ka;
+      case "en":
+        return item.title_en;
+      case "ru":
+        return item.title_ru;
+      case "el":
+        return item.title_el;
+      default:
+        return item.title_en;
+    }
+  }
+
+  function getDescription(item: any) {
+    switch (language) {
+      case "ka":
+        return item.description_ka;
+      case "en":
+        return item.description_en;
+      case "ru":
+        return item.description_ru;
+      case "el":
+        return item.description_el;
+      default:
+        return item.description_en;
+    }
+  }
 
   if (!accepted) {
     return (
       <div className="mx-auto max-w-3xl rounded-3xl border border-amber-300 bg-amber-50 p-12 text-center shadow-xl">
-
         <div className="text-6xl">⚠️</div>
 
         <h3 className="mt-6 text-4xl font-bold text-[#1f4d2d]">
@@ -59,15 +96,11 @@ export default function GallerySlider() {
 
         <p className="mt-6 text-lg leading-8 text-gray-700">
           {t.warning.text1}
-
           <br />
           <br />
-
           {t.warning.text2}
-
           <br />
           <br />
-
           {t.warning.text3}
         </p>
 
@@ -77,7 +110,6 @@ export default function GallerySlider() {
         >
           {t.warning.button}
         </button>
-
       </div>
     );
   }
@@ -114,44 +146,39 @@ export default function GallerySlider() {
               className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-xl"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
-
                 <Image
                   src={item.image}
-                  alt={item.title[language]}
+                  alt={getTitle(item) || ""}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-110"
                 />
 
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/40">
-
                   <div className="rounded-full bg-white px-6 py-3 font-semibold text-[#1f4d2d] opacity-0 transition duration-300 group-hover:opacity-100">
                     🔍 {t.warning.view}
                   </div>
-
                 </div>
 
                 <div className="absolute left-4 top-4 rounded-full bg-[#1f4d2d] px-4 py-2 text-sm font-semibold text-white">
                   {t.warning.real}
                 </div>
-
               </div>
 
               <div className="p-5">
-
                 <h3 className="text-xl font-bold text-[#1f4d2d]">
-                  {item.title[language]}
+                  {getTitle(item)}
                 </h3>
 
                 <p className="mt-3 line-clamp-3 text-gray-600">
-                  {item.description[language]}
+                  {getDescription(item)}
                 </p>
-
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-            <Lightbox
+
+      <Lightbox
         item={
           selectedIndex !== null
             ? filteredItems[selectedIndex]
