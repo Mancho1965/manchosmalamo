@@ -39,13 +39,20 @@ export default function GallerySlider() {
     useState<number | null>(null);
 
   useEffect(() => {
-    async function loadGallery() {
+  async function loadGallery() {
+    try {
       const data = await getGallery();
-      setGalleryItems(data || []);
-    }
 
-    loadGallery();
-  }, []);
+      console.log("GALLERY DATA:", data);
+
+      setGalleryItems(data || []);
+    } catch (error) {
+      console.error("GALLERY ERROR:", error);
+    }
+  }
+
+  loadGallery();
+}, []);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "all") return galleryItems;
