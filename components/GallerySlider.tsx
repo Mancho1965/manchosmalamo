@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -25,7 +24,8 @@ type Category =
   | "gangrene"
   | "burn"
   | "scabies"
-  | "fungus";
+  | "fungus"
+  | "general";
 
 export default function GallerySlider() {
   const { language } = useLanguage();
@@ -39,20 +39,17 @@ export default function GallerySlider() {
     useState<number | null>(null);
 
   useEffect(() => {
-  async function loadGallery() {
-    try {
-      const data = await getGallery();
-
-      console.log("GALLERY DATA:", data);
-
-      setGalleryItems(data || []);
-    } catch (error) {
-      console.error("GALLERY ERROR:", error);
+    async function loadGallery() {
+      try {
+        const data = await getGallery();
+        setGalleryItems(data || []);
+      } catch (error) {
+        console.error("GALLERY ERROR:", error);
+      }
     }
-  }
 
-  loadGallery();
-}, []);
+    loadGallery();
+  }, []);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "all") return galleryItems;
@@ -63,33 +60,11 @@ export default function GallerySlider() {
   }, [galleryItems, selectedCategory]);
 
   function getTitle(item: any) {
-    switch (language) {
-      case "ka":
-        return item.title_ka;
-      case "en":
-        return item.title_en;
-      case "ru":
-        return item.title_ru;
-      case "el":
-        return item.title_el;
-      default:
-        return item.title_en;
-    }
+    return item.title?.[language] || "";
   }
 
   function getDescription(item: any) {
-    switch (language) {
-      case "ka":
-        return item.description_ka;
-      case "en":
-        return item.description_en;
-      case "ru":
-        return item.description_ru;
-      case "el":
-        return item.description_el;
-      default:
-        return item.description_en;
-    }
+    return item.description?.[language] || "";
   }
 
   if (!accepted) {
@@ -135,15 +110,9 @@ export default function GallerySlider() {
         loop={filteredItems.length > 1}
         spaceBetween={30}
         breakpoints={{
-          0: {
-            slidesPerView: 1,
-          },
-          768: {
-            slidesPerView: 2,
-          },
-          1200: {
-            slidesPerView: 3,
-          },
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1200: { slidesPerView: 3 },
         }}
       >
         {filteredItems.map((item, index) => (
@@ -153,11 +122,10 @@ export default function GallerySlider() {
               className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-xl"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
-                <Image
+                <img
                   src={item.image}
-                  alt={getTitle(item) || ""}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-110"
+                  alt={getTitle(item)}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                 />
 
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/40">
