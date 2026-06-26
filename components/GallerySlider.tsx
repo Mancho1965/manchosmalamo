@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { galleryItems as staticGalleryItems } from "@/lib/gallery";
 import { getGallery } from "@/lib/getGallery";
 
 import GalleryFilters from "./GalleryFilters";
@@ -31,7 +33,7 @@ export default function GallerySlider() {
   const { language } = useLanguage();
   const t = translations[language];
 
-  const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [supabaseItems, setSupabaseItems] = useState<any[]>([]);
   const [accepted, setAccepted] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<Category>("all");
@@ -42,7 +44,7 @@ export default function GallerySlider() {
     async function loadGallery() {
       try {
         const data = await getGallery();
-        setGalleryItems(data || []);
+        setSupabaseItems(data || []);
       } catch (error) {
         console.error("GALLERY ERROR:", error);
       }
@@ -51,21 +53,17 @@ export default function GallerySlider() {
     loadGallery();
   }, []);
 
-  const filteredItems = useMemo(() => {
-    if (selectedCategory === "all") return galleryItems;
+  const allGalleryItems = useMemo(() => {
+    return [...supabaseItems, ...staticGalleryItems];
+  }, [supabaseItems]);
 
-    return galleryItems.filter(
+  const filteredItems = useMemo(() => {
+    if (selectedCategory === "all") return allGalleryItems;
+
+    return allGalleryItems.filter(
       (item) => item.category === selectedCategory
     );
-  }, [galleryItems, selectedCategory]);
-
-  function getTitle(item: any) {
-    return item.title?.[language] || "";
-  }
-
-  function getDescription(item: any) {
-    return item.description?.[language] || "";
-  }
+  }, [allGalleryItems, selectedCategory]);
 
   if (!accepted) {
     return (
@@ -110,23 +108,38 @@ export default function GallerySlider() {
         loop={filteredItems.length > 1}
         spaceBetween={30}
         breakpoints={{
-          0: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1200: { slidesPerView: 3 },
+          0: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1200: {
+            slidesPerView: 3,
+          },
         }}
       >
         {filteredItems.map((item, index) => (
-          <SwiperSlide key={item.id}>
+          <SwiperSlide key={`${item.id}-${index}`}>
             <div
               onClick={() => setSelectedIndex(index)}
               className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-xl"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={getTitle(item)}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-                />
+                {item.image?.startsWith("http") ? (
+                  <img
+                    src={item.image}
+                    alt={item.title?.[language] || ""}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <Image
+                    src={item.image}
+                    alt={item.title?.[language] || ""}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-110"
+                  />
+                )}
 
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/40">
                   <div className="rounded-full bg-white px-6 py-3 font-semibold text-[#1f4d2d] opacity-0 transition duration-300 group-hover:opacity-100">
@@ -141,11 +154,11 @@ export default function GallerySlider() {
 
               <div className="p-5">
                 <h3 className="text-xl font-bold text-[#1f4d2d]">
-                  {getTitle(item)}
+                  {item.title?.[language]}
                 </h3>
 
                 <p className="mt-3 line-clamp-3 text-gray-600">
-                  {getDescription(item)}
+                  {item.description?.[language]}
                 </p>
               </div>
             </div>
